@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header>
+    <nav>
+        <div class="logo">
+            <a href=""><img class="elemento-golpe" src="/images/image.png" alt="logo"> </a>
+        </div>
+        <div class="burger-menu" id="burger-menu">
+            &#9776; 
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Sobre Nosotros</a></li>
+            <li><a href="instructores">Nuestros Instructores</a></li>
+            <li><a href="horarios">Horarios</a></li>
+            <li><a href="inscribirse">Tierra de peleadores</a></li>
+        </ul>
+    </nav>
+    <main class="main" id="main">
+        <section class="principal">
+            <h1>¡DISTRITO MARCIAL!</h1>
+        </section>
+    </main>
+</header>
+<!--SOBRE NOSOTROS -->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<section id="sobre-nosotros" class="sobre-nosotros">
+    <div class="contenido-sobre-nosotros">
+        <div class="imagen-texto">
+            <!-- Contenedor de la imagen principal -->
+            <div class="galeria">
+                <button id="prev" class="flecha">&#8249;</button>
+                <img id="imagen-principal" src="/images/nosotros2.jpg" alt="Artes marciales en acción">
+                <button id="next" class="flecha">&#8250;</button>
+            </div>
+
+            <!-- Texto Principal -->
+            <div class="texto-sobre-imagen">
+                <h2>Somos una escuela con más de 10 años</h2>
+                <p>
+                    Inspiramos a estudiantes de todas las edades a alcanzar su máximo potencial, 
+                    cultivando disciplina, respeto y confianza a través de las artes marciales. 
+                    Aquí, cada golpe y movimiento son una lección para la vida.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <div class="logo">
+            <img  class="elemento-golpe" src="/images/image.png" alt="Logo Colegio de Combate">
+        </div>
+        <div class="footer-links">
+            <h3>Navegación</h3>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="instructores">Instructores</a></li>
+                <li><a href="horarios">Horarios</a></li>
+                <li><a href="inscribirse">Inscribirse</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <h3>Contacto</h3>
+            <p> <b>Email:distritomarcial@gmail.com</b></p>
+
+            <p> <b>Teléfono:+54 11 1234-5678</b> </p>
+            <p> <b>Ubicación:Jorge miles 400. Esteban Echeverria.</b>></p>
+        </div>
+        <div class="footer-social">
+            <h3>Redes Sociales</h3>
+            <ul>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">YouTube</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 TODOS LOS DERECHOS RESERVADOS..</p>
+    </div>
+</footer>
+
+<script>
+    const imagenes = [
+    '/images/nosotros1.jpg',
+    '/images/nosotros2.jpg'
+];
+
+// Elementos del DOM
+const imagenPrincipal = document.getElementById('imagen-principal');
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
+
+// Índice de la imagen actual
+let indiceActual = 0;
+
+// Función para cambiar la imagen
+function cambiarImagen(direccion) {
+    indiceActual = (indiceActual + direccion + imagenes.length) % imagenes.length;
+    imagenPrincipal.src = imagenes[indiceActual];
+}
+
+// Eventos de los botones
+prev.addEventListener('click', () => cambiarImagen(-1));
+next.addEventListener('click', () => cambiarImagen(1));
+setInterval(() => {
+    cambiarImagen(1)
+},4000)
+</script>
+
+</body>
+<script src="script.js"></script>
+</html>

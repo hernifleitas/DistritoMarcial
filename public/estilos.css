@@ -1,0 +1,441 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #1e1e1e;
+    
+}
+
+/* HEADER */
+header {
+    background-color: #212121;
+    color: white;
+    padding: 20px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+
+}
+
+.logo img {
+    width: 75px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.1);
+}
+
+nav .burger-menu {
+    display: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+nav .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style-type: none;
+}
+
+nav .nav-links li {
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: white;
+    position: relative;
+}
+
+nav .nav-links li::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: transparent;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: background-color 0.3s ease;
+}
+
+nav .nav-links li:hover::after {
+    background-color: #e63946;
+    /* Rojo agresivo */
+}
+
+nav .nav-links li a {
+    text-decoration: none;
+    color: inherit;
+    padding: 10px 0;
+    display: inline-block;
+}
+
+main .principal {
+    text-align: center;
+    margin-top: 100px;
+}
+
+main .principal h1 {
+    font-size: 3rem;
+    color: #e63946;
+    font-weight: bold;
+    
+}
+
+main .principal p {
+    font-size: 1.3rem;
+    color: white;
+    margin-top: 20px;
+}
+
+/* Animación para el "golpe" */
+@keyframes golpe {
+    0% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(1.2);
+    }
+
+    50% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.elemento-golpe {
+    display: inline-block;
+    animation: golpe 0.5s ease-in-out;
+}
+
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+/*SOBRE NOSOTROS */
+
+.galeria {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    max-width: 100%;
+}
+
+.galeria #imagen-principal {
+    max-width: 80%;
+    max-height: 500px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.galeria #imagen-principal:hover {
+    transform: scale(1.05);
+}
+
+.flecha {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+.flecha:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+#prev {
+    left: 10px;
+}
+
+#next {
+    right: 10px;
+}
+.imagen-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.imagen-texto img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.texto-sobre-imagen {
+    max-width: 800px;
+    text-align: center;
+}
+
+.texto-sobre-imagen h2 {
+    font-size: 2rem;
+    color: #e63946; /* Rojo agresivo */
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.texto-sobre-imagen p {
+    font-size: 1.2rem;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+/* Estilo general para la sección de instructores */
+.instructores {
+    background-color: #1e1e1e;
+    /* Fondo oscuro */
+    color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.titulo-instructores {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #e63946;
+    /* Rojo agresivo */
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.titulo-instructores::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 2px;
+    background-color: #e63946;
+    margin: 20px auto;
+}
+
+/* Contenedor para las cartas de los instructores */
+.contenedor-instructores {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* Estilos para cada carta de instructor */
+.instructor-card {
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+}
+
+.instructor-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.7);
+}
+
+/* Imagen del instructor */
+.instructor-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    filter: brightness(0.8);
+    /* Reducir la iluminación de la imagen */
+    transition: filter 0.3s ease;
+}
+
+.instructor-card:hover .instructor-img {
+    filter: brightness(1);
+    /* Aumentar brillo al pasar el mouse */
+}
+
+/* Información del instructor */
+.instructor-info {
+    padding: 20px;
+}
+
+.instructor-nombre {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #e63946;
+    /* Rojo agresivo */
+    margin-bottom: 10px;
+}
+
+.instructor-capacidad {
+    font-size: 1.2rem;
+    color: #bbb;
+    margin-bottom: 10px;
+}
+
+.instructor-detalles {
+    font-size: 1rem;
+    color: #ddd;
+    line-height: 1.5;
+}
+
+/* Animación agresiva de la carta al entrar */
+@keyframes entrada-card {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.instructor-card {
+    animation: entrada-card 0.5s ease-out forwards;
+}
+
+footer {
+    background-color: #1e1e1e;
+    color: white;
+    padding: 40px 20px;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.footer-logo {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+
+.logo {
+    border-radius: 50%;
+}
+
+.footer-logo img {
+    width: 120px;
+    margin-bottom: 15px;
+}
+
+.footer-links,
+.footer-contact,
+.footer-social {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-links h3,
+.footer-contact h3,
+.footer-social h3 {
+    color: #e63946;
+    margin-bottom: 15px;
+}
+
+.footer-links ul,
+.footer-social ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links ul li,
+.footer-social ul li {
+    margin-bottom: 10px;
+}
+
+.footer-links ul li a,
+.footer-social ul li a {
+    text-decoration: none;
+    color: #bbb;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.footer-links ul li a:hover,
+.footer-social ul li a:hover {
+    color: #e63946;
+}
+
+.footer-contact p {
+    margin: 5px 0;
+    color: #bbb;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    border-top: 1px solid #333;
+    padding-top: 10px;
+    font-size: 0.9rem;
+    color: #777;
+}
+
+
+/*RESPONSIVE DESIGN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+@media (max-width: 768px) {
+    nav .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        background-color: #333;
+    }
+
+    nav .nav-links li {
+        margin: 10px 0;
+    }
+
+    .burger-menu {
+        display: block;
+        z-index: 999;
+    }
+
+    nav.active .nav-links {
+        display: flex;
+    }
+
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-logo,
+    .footer-links,
+    .footer-contact,
+    .footer-social {
+        margin-bottom: 20px;
+    }
+}
+
+/* Estilos para cuando se presiona el burger menu */
+#burger-menu.active {
+    color: white;
+}

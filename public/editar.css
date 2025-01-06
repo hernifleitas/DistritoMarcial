@@ -1,0 +1,103 @@
+body {
+    font-family: sans-serif;
+    background-color: #1c1c1c;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+h1 {
+    text-align: center;
+    color: #f44336; /* Rojo intenso */
+    margin-top: 30px;
+    font-size: 36px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Contenedor del formulario */
+.form-container {
+    background-color: #333;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Etiquetas de los campos */
+label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #fff;
+}
+
+/* Estilo para los campos de entrada */
+input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #f44336;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #444;
+    color: #ddd;
+}
+
+/* Estilo para la sección que contiene el input de nueva escuela */
+#escuela-input-container {
+    margin-top: 20px;
+}
+
+/* Estilo para el botón */
+button[type="submit"] {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #d32f2f;
+    transform: scale(1.1);
+}
+
+button[type="submit"]:focus {
+    outline: none;
+}
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 20px;
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    button[type="submit"] {
+        font-size: 18px;
+        padding: 12px 0;
+        margin: 5px 0;
+    }
+
+    /* Convertir los elementos en un diseño más compacto para móviles */
+    label {
+        font-size: 14px;
+    }
+
+    input[type="text"], input[type="number"], select {
+        padding: 12px;
+        font-size: 14px;
+    }
+}
