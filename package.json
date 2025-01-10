@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "node app.js"
+=======
+    "start": "app.js"
+>>>>>>> 3ed35ac15fd0a6903bd92ff91911c2b54ce82c34
   },
   "keywords": [],
   "author": "",
