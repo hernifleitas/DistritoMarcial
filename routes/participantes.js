@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const connection = require('../database/db');  // Conexión a la base de datos
-const path = require('path');
 
 // Ruta para mostrar los participantes
 router.get('/', (req, res) => {
@@ -14,11 +13,12 @@ router.get('/', (req, res) => {
             c.categoria, 
             e.escuela_nombres AS escuela, 
             i.contacto, 
-            i.peleas
+            i.peleas,
+            i.modalidad
         FROM inscripciones i
         JOIN categorias c ON i.categoria_id = c.id
         JOIN escuelas e ON i.escuela_id = e.id
-        ORDER BY c.categoria
+        ORDER BY c.categoria, i.modalidad
     `;
 
     connection.query(query, (err, results) => {
@@ -26,13 +26,25 @@ router.get('/', (req, res) => {
             return res.status(500).send("Error al obtener inscripciones");
         }
 
-        // Agrupar participantes por categoría
-        const categorias = {};
+        // Agrupar participantes por modalidad y luego por categoría
+        const modalidades = {
+            'Pelea KickBoxing': {},
+            'Pelea K1': {},
+            'Pelea Full Contact': {},
+            'Pelea Boxeo': {},
+            'Exhibicion KickBoxing': {},
+            'Exhibicion Boxeo': {},
+            'Exhibicion Full Contact': {}
+        };
+
         results.forEach(participante => {
-            if (!categorias[participante.categoria]) {
-                categorias[participante.categoria] = [];
+            if (!modalidades[participante.modalidad]) return;
+
+            if (!modalidades[participante.modalidad][participante.categoria]) {
+                modalidades[participante.modalidad][participante.categoria] = [];
             }
-            categorias[participante.categoria].push(participante);
+
+            modalidades[participante.modalidad][participante.categoria].push(participante);
         });
 
         // Generar HTML
@@ -46,43 +58,56 @@ router.get('/', (req, res) => {
                 <link rel="stylesheet" href="/participantes.css">
             </head>
             <body>
+                <div class="logo">
+                    <a href=""><img class="elemento-golpe" src="/images/image.png" alt="logo"> </a>
+                </div>
                 <h1>Lista de Participantes</h1>
         `;
 
-        // Generar una sección para cada categoría
-        Object.keys(categorias).forEach(categoria => {
-            html += `<br>`; // Título de la categoría
-            html += `
-                <table>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Edad</th>
-                        <th>Categoría</th>
-                        <th>Escuela</th>
-                        <th>Contacto</th>
-                        <th>Género</th>
-                        <th>Peleas</th>
-                        <th>Acción</th>
-                    </tr>
-            `;
-            categorias[categoria].forEach(participante => {
-                html += `
-                    <tr>
-                        <td>${participante.nombre}</td>
-                        <td>${participante.edad}</td>
-                        <td>${participante.categoria}</td>
-                        <td>${participante.escuela}</td>
-                        <td>${participante.contacto}</td>
-                        <td>${participante.genero}</td>
-                        <td>${participante.peleas}</td>
-                        <td>
-                            <button class="btn-edit" onclick="editarParticipante(${participante.id})">Editar</button>
-                            <button class="btn-delete" onclick="eliminarParticipante(${participante.id})">Eliminar</button>
-                        </td>
-                    </tr>
-                `;
-            });
-            html += `</table>`;
+        // Generar una sección para cada modalidad
+        Object.keys(modalidades).forEach(modalidad => {
+            if (Object.keys(modalidades[modalidad]).length > 0) {
+                html += `<br><h2>${modalidad}</h2>`; // Título de la modalidad
+
+                // Generar las categorías dentro de cada modalidad
+                Object.keys(modalidades[modalidad]).forEach(categoria => {
+                    const categoriaParticipantes = modalidades[modalidad][categoria];
+                    html += `<br><h2>${categoria}</h2>`; // Título de la categoría
+                    html += `
+                        <table>
+                            <tr>
+                                <th data=label="Nombre">Nombre</th>
+                                <th data=label="Modalidad">Modalidad</th>
+                                <th>Edad</th>
+                                <th>Categoría</th>
+                                <th>Escuela</th>
+                                <th>Contacto</th>
+                                <th>Género</th>
+                                <th>Peleas</th>
+                                <th>Acción</th>
+                            </tr>
+                    `;
+                    categoriaParticipantes.forEach(participante => {
+                        html += `
+                            <tr>
+                                <td data-label="Nombre:">${participante.nombre}</td>
+                                <td data-label="Modalidad:">${participante.modalidad}</td>
+                                <td data-label="Edad:">${participante.edad}</td>
+                                <td data-label="Categoría:">${participante.categoria}</td>
+                                <td data-label="Escuela:">${participante.escuela}</td>
+                                <td data-label="Contacto:">${participante.contacto}</td>
+                                <td data-label="Género:">${participante.genero}</td>
+                                <td data-label="Peleas:">${participante.peleas}</td>
+                                <td data-label="Actualizar:">
+                                    <button class="btn-edit" onclick="editarParticipante(${participante.id})">Editar</button>
+                                    <button class="btn-delete" onclick="eliminarParticipante(${participante.id})">Eliminar</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    html += `</table>`;
+                });
+            }
         });
 
         html += `
@@ -97,9 +122,10 @@ router.get('/', (req, res) => {
                             .then(response => {
                                 if (response.ok) {
                                     alert('Participante eliminado con éxito.');
+                                    
                                     window.location.reload();
                                 } else {
-                                    alert('Error al eliminar el participante.');
+                                    alert('Error al eliminar el participante, Comunicarse con el programador.');
                                 }
                             });
                     }
@@ -122,7 +148,6 @@ router.get('/editar/:id', (req, res) => {
             console.error(err || "Participante no encontrado");
             return res.status(404).send('Participante no encontrado');
         }
-
         const participante = results[0];
 
         // Obtener las categorías disponibles
@@ -141,10 +166,17 @@ router.get('/editar/:id', (req, res) => {
                     return res.status(500).send('Error al obtener escuelas');
                 }
 
-                // Filtrar duplicados de la escuela "Otra" y crear las opciones
-                let escuelasOptions = escuelas.map(escuela => {
-                    return `<option value="${escuela.id}" ${escuela.id === participante.escuela_id ? 'selected' : ''}>${escuela.escuela_nombres}</option>`;
-                }).join('');
+                // Filtrar las escuelas duplicadas y crear las opciones
+                let escuelasOptions = '';
+                let escuelasVistas = new Set();
+
+                // Solo agregar escuelas no duplicadas
+                escuelas.forEach(escuela => {
+                    if (!escuelasVistas.has(escuela.escuela_nombres)) {
+                        escuelasVistas.add(escuela.escuela_nombres);
+                        escuelasOptions += `<option value="${escuela.id}" ${escuela.id === participante.escuela_id ? 'selected' : ''}>${escuela.escuela_nombres}</option>`;
+                    }
+                });
 
                 // Si la escuela seleccionada es "Otra", agregar la opción para escribir una nueva escuela
                 if (participante.escuela_id === 'nueva') {
@@ -164,11 +196,25 @@ router.get('/editar/:id', (req, res) => {
                         <link rel="stylesheet" href="/editar.css">
                     </head>
                     <body>
+                        <div class="logo">
+                            <a href=""><img class="elemento-golpe" src="/images/image.png" alt="logo"> </a>
+                        </div>
+
                         <div class="form-container">
                             <h1>Editar Participante</h1>
                             <form method="POST" action="/participantes/actualizar/${id}">
                                 <label for="nombre">Nombre:</label>
                                 <input type="text" id="nombre" name="nombre" value="${participante.nombre}" required><br>
+                                <label for="modalidad">MODALIDAD:</label>
+                                <select id="modalidad" name="modalidad" required>
+                                    <option value="Pelea KickBoxing" ${participante.modalidad === "Pelea KickBoxing" ? "selected" : ""}>Pelea KickBoxing</option>
+                                    <option value="Pelea K1" ${participante.modalidad === "Pelea K1" ? "selected" : ""}>Pelea K1</option>
+                                    <option value="Pelea Full Contact" ${participante.modalidad === "Pelea Full Contact" ? "selected" : ""}>Pelea Full Contact</option>
+                                    <option value="Pelea Boxeo" ${participante.modalidad === "Pelea Boxeo" ? "selected" : ""}>Pelea Boxeo</option>
+                                    <option value="Exhibicion KickBoxing" ${participante.modalidad === "Exhibicion KickBoxing" ? "selected" : ""}>Exhibicion KickBoxing</option>
+                                    <option value="Exhibicion Boxeo" ${participante.modalidad === "Exhibicion Boxeo" ? "selected" : ""}>Exhibición Boxeo</option>
+                                    <option value="Exhibicion Full Contact" ${participante.modalidad === "Exhibicion Full Contact" ? "selected" : ""}>Exhibición Full Contact</option>
+                                </select><br>
 
                                 <label for="edad">Edad:</label>
                                 <input type="number" id="edad" name="edad" value="${participante.edad}" required><br>
@@ -220,10 +266,11 @@ router.get('/editar/:id', (req, res) => {
         });
     });
 });
+
 // Ruta para actualizar un participante
 router.post('/actualizar/:id', (req, res) => {
     const id = req.params.id;
-    const { nombre, edad, genero, categoria, escuela, nueva_escuela, peleas } = req.body;
+    const { nombre, modalidad, edad, genero, categoria, escuela, nueva_escuela, peleas } = req.body;
 
     // Si se ha ingresado una nueva escuela, verificar si ya existe en la base de datos
     let escuelaId = escuela;
@@ -241,8 +288,8 @@ router.post('/actualizar/:id', (req, res) => {
                 escuelaId = result[0].id;
 
                 // Actualizar la inscripción con la escuela existente
-                const updateQuery = 'UPDATE inscripciones SET nombre = ?, edad = ?, genero = ?, categoria_id = ?, escuela_id = ?, peleas = ? WHERE id = ?';
-                connection.query(updateQuery, [nombre, edad, genero, categoria, escuelaId, peleas, id], (err) => {
+                const updateQuery = 'UPDATE inscripciones SET nombre = ? ,modalidad = ?, edad = ?, genero = ?, categoria_id = ?, escuela_id = ?, peleas = ? WHERE id = ?';
+                connection.query(updateQuery, [nombre, modalidad, edad, genero, categoria, escuelaId, peleas, id], (err) => {
                     if (err) {
                         console.error("Error al actualizar participante:", err);
                         return res.status(500).send('Error al actualizar participante');
@@ -261,8 +308,8 @@ router.post('/actualizar/:id', (req, res) => {
                     escuelaId = result.insertId;
 
                     // Actualizar la inscripción con la nueva escuela
-                    const updateQuery = 'UPDATE inscripciones SET nombre = ?, edad = ?, genero = ?, categoria_id = ?, escuela_id = ?, peleas = ? WHERE id = ?';
-                    connection.query(updateQuery, [nombre, edad, genero, categoria, escuelaId, peleas, id], (err) => {
+                    const updateQuery = 'UPDATE inscripciones SET nombre = ?,modalidad = ?, edad = ?, genero = ?, categoria_id = ?, escuela_id = ?, peleas = ? WHERE id = ?';
+                    connection.query(updateQuery, [nombre, modalidad, edad, genero, categoria, escuelaId, peleas, id], (err) => {
                         if (err) {
                             console.error("Error al actualizar participante:", err);
                             return res.status(500).send('Error al actualizar participante');
@@ -274,8 +321,8 @@ router.post('/actualizar/:id', (req, res) => {
         });
     } else {
         // Si no se selecciona "nueva" escuela, se actualiza directamente la inscripción con la escuela seleccionada
-        const updateQuery = 'UPDATE inscripciones SET nombre = ?, edad = ?, genero = ?, categoria_id = ?, escuela_id = ?, peleas = ? WHERE id = ?';
-        connection.query(updateQuery, [nombre, edad, genero, categoria, escuelaId, peleas, id], (err) => {
+        const updateQuery = 'UPDATE inscripciones SET nombre = ?, modalidad = ?, edad = ?, genero = ?, categoria_id = ?, escuela_id = ?, peleas = ? WHERE id = ?';
+        connection.query(updateQuery, [nombre, modalidad, edad, genero, categoria, escuelaId, peleas, id], (err) => {
             if (err) {
                 console.error("Error al actualizar participante:", err);
                 return res.status(500).send('Error al actualizar participante');
@@ -284,6 +331,7 @@ router.post('/actualizar/:id', (req, res) => {
         });
     }
 });
+
 // Ruta para eliminar un participante
 router.delete('/eliminar/:id', (req, res) => {
     const id = req.params.id;
@@ -293,7 +341,7 @@ router.delete('/eliminar/:id', (req, res) => {
             console.error("Error al eliminar participante:", err);
             return res.status(500).send('Error al eliminar participante');
         }
-        res.status(200).send('Participante eliminado con éxito');
+        res.sendStatus(200);
     });
 });
 

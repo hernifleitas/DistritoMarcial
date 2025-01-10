@@ -6,6 +6,7 @@ const connection = mysql.createConnection({
     password: '',
     database: 'tierraDePeleadores'
 });
+;
 
 connection.connect(err => {
     if (err) {

@@ -5,6 +5,8 @@ const inscripcionesRoutes = require('./routes/inscripciones');
 const participantesRoutes = require('./routes/participantes');
 const indexRoutes = require('./routes/index')
 const instructoresRoutes = require('./routes/instructores')
+const tierraDePeleadoresRoutes = require('./routes/tierraDePeleadores')
+const horariosRoutes = require('./routes/horarios')
 const connection = require("./database/db");
 const app = express();
 const port = 3000;
@@ -22,6 +24,10 @@ app.use('/', inscripcionesRoutes);
 app.use('/participantes', participantesRoutes); 
 app.use('/', indexRoutes);
 app.use('/', instructoresRoutes);
+app.use('/', horariosRoutes);
+app.use('/', tierraDePeleadoresRoutes);
+
+
 
 // Iniciar el servidor
 app.listen(port, () => {

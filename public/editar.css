@@ -6,6 +6,16 @@ body {
     color: #fff;
 }
 
+.logo img {
+    width: 75px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.1);
+}
+
 h1 {
     text-align: center;
     color: #f44336; /* Rojo intenso */

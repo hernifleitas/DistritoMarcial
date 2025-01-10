@@ -2,13 +2,14 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    
 }
 
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #1e1e1e;
-    
+
 }
 
 /* HEADER */
@@ -83,20 +84,14 @@ nav .nav-links li a {
 
 main .principal {
     text-align: center;
-    margin-top: 100px;
+    margin:25px;
 }
 
 main .principal h1 {
     font-size: 3rem;
     color: #e63946;
     font-weight: bold;
-    
-}
 
-main .principal p {
-    font-size: 1.3rem;
-    color: white;
-    margin-top: 20px;
 }
 
 /* Animación para el "golpe" */
@@ -125,19 +120,22 @@ main .principal p {
 
 /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 /*SOBRE NOSOTROS */
-
 .galeria {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    max-width: 100%;
+    width: 80%; /* Ajusta el ancho total de la galería */
+    max-width: 800px; /* Límite para pantallas grandes */
+    height: 500px; /* Altura fija para mantener proporciones */
+    margin: auto;
+    overflow: hidden; /* Oculta cualquier contenido desbordante */
 }
 
 .galeria #imagen-principal {
-    max-width: 80%;
-    max-height: 500px;
-    height: auto;
+    max-width: 100%; /* Se ajusta dentro del contenedor */
+    max-height: 100%;
+    object-fit: contain; /* Ajusta la imagen sin deformarla */
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease;
@@ -160,6 +158,11 @@ main .principal p {
     transform: translateY(-50%);
     z-index: 10;
     transition: background-color 0.3s ease;
+    width: 50px; /* Tamaño uniforme */
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .flecha:hover {
@@ -167,12 +170,13 @@ main .principal p {
 }
 
 #prev {
-    left: 10px;
+    left: 10px; /* Fija la posición de la flecha izquierda */
 }
 
 #next {
-    right: 10px;
+    right: 10px; /* Fija la posición de la flecha derecha */
 }
+
 .imagen-texto {
     display: flex;
     flex-direction: column;
@@ -194,7 +198,8 @@ main .principal p {
 
 .texto-sobre-imagen h2 {
     font-size: 2rem;
-    color: #e63946; /* Rojo agresivo */
+    color: #e63946;
+    /* Rojo agresivo */
     margin-bottom: 10px;
     text-transform: uppercase;
 }
@@ -241,6 +246,7 @@ main .principal p {
     justify-content: center;
     gap: 30px;
     flex-wrap: wrap;
+    max-width: 100%;
 }
 
 /* Estilos para cada carta de instructor */
@@ -261,7 +267,7 @@ main .principal p {
 /* Imagen del instructor */
 .instructor-img {
     width: 100%;
-    height: 200px;
+    height: 350px;
     object-fit: cover;
     filter: brightness(0.8);
     /* Reducir la iluminación de la imagen */
@@ -396,46 +402,153 @@ footer {
 }
 
 
-/*RESPONSIVE DESIGN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-@media (max-width: 768px) {
-    nav .nav-links {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-        background-color: #333;
-    }
-
-    nav .nav-links li {
-        margin: 10px 0;
-    }
-
-    .burger-menu {
-        display: block;
-        z-index: 999;
-    }
-
-    nav.active .nav-links {
-        display: flex;
-    }
-
-
+@media (max-width:920px){
     .footer-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        flex-direction: column; /* Apila los elementos verticalmente */
+        align-items: center; /* Centra los elementos */
     }
-
+    
     .footer-logo,
     .footer-links,
     .footer-contact,
     .footer-social {
-        margin-bottom: 20px;
+        min-width: 100%; /* Asegura que cada sección ocupe todo el ancho disponible */
+        text-align: center; /* Centra los textos */
+        margin-bottom: 20px; /* Añade un poco de espacio entre las secciones */
+    }
+    
+    .footer-logo img {
+        width: 100px ; /* Ajusta el tamaño del logo para pantallas pequeñas */
+        margin-bottom: 10px;
+    }
+
+    footer .logo .elemento-golpe{
+        width: 130px;
+    }
+    
+    .footer-links ul li,
+    .footer-social ul li {
+        margin-bottom: 15px; /* Más espacio entre los enlaces */
     }
 }
 
-/* Estilos para cuando se presiona el burger menu */
-#burger-menu.active {
+/*RESPONSIVE DESIGN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
+@media (max-width: 768px) {
+    .burger-menu {
+        display: block !important;
+        /* Muestra el burger icon en pantallas pequeñas */
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.9);
+        /* Fondo oscuro y translúcido */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: left 0.3s ease;
+        /* Transición suave para el menú */
+        z-index: 1000;
+        /* Aseguramos que el menú esté encima de la imagen */
+    }
+
+    .nav-links li {
+        margin: 20px 0;
+    }
+
+    /* Cuando el menú burger está abierto */
+    .nav-links.open {
+        left: 0;
+        /* Desplazar el menú hacia la vista */
+    }
+
+    /* Ajustes a la imagen */
+    .logo img {
+        max-width: 100%;
+        /* Asegura que la imagen se ajuste al tamaño */
+        height: auto;
+    }
+
+/* Transición de color en los enlaces del menú */
+.nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #f44336;
+    /* Cambio de color al pasar el cursor */
+}
+
+
+.galeria {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%; /* Ajusta el ancho total de la galería */
+    max-width: 800px; /* Límite para pantallas grandes */
+    height: 500px; /* Altura fija para mantener proporciones */
+    margin: auto;
+    overflow: hidden; /* Oculta cualquier contenido desbordante */
+}
+
+.galeria #imagen-principal {
+    max-width: 100%; /* Se ajusta dentro del contenedor */
+    max-height: 100%;
+    object-fit: contain; /* Ajusta la imagen sin deformarla */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.flecha {
     color: white;
+    border: none;
+    background-color: transparent;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 50px; /* Tamaño uniforme */
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#prev {
+    left: 10px; /* Fija la posición de la flecha izquierda */
+}
+
+#next {
+    right: 10px; /* Fija la posición de la flecha derecha */
+}
+
+.flecha:hover {
+    background-color:transparent;
+}
+
+
+#horarios h2{
+    font-size: 2.5rem !important;
+}
+.card h3{
+    font-size: 1.5rem !important;
+}
+
+ 
 }

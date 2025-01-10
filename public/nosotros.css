@@ -74,7 +74,8 @@ nav .nav-links li::after {
 }
 
 nav .nav-links li:hover::after {
-    background-color: #e63946; /* Rojo agresivo */
+    background-color: #e63946;
+    /* Rojo agresivo */
 }
 
 nav .nav-links li a {
@@ -139,8 +140,23 @@ main .principal p {
     color: #e63946;
 }
 
+img {
+    user-select: none;
+    outline: none;
+}
+
+img:active {
+    outline: none !important;
+}
+
 /* Estilos responsivos */
 @media (max-width: 768px) {
+    .burger-menu {
+        display: block !important;
+        font-size: 20px;
+
+    }
+
     nav {
         flex-direction: column;
         padding: 20px;

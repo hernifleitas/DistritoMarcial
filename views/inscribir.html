@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,24 @@
     <style>
         /* Estilos del formulario */
         body {
-            font-family: sans-serif;  /* Tipografía más fuerte */
-            background-color: #212121; /* Fondo oscuro */
-            color: #fff; /* Texto blanco */
+            font-family: sans-serif;
+            /* Tipografía más fuerte */
+            background-color: #212121;
+            /* Fondo oscuro */
+            color: #fff;
+            /* Texto blanco */
             margin: 0;
             padding: 0;
+        }
+
+        .logo img {
+            width: 75px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
         }
 
         h1 {
@@ -19,14 +33,15 @@
             font-size: 36px;
             margin-top: 30px;
             color: #f44336;
-                
+
         }
 
         .form-container {
             width: 80%;
             max-width: 800px;
             margin: auto;
-            background-color: #333; /* Fondo oscuro para el formulario */
+            background-color: #333;
+            /* Fondo oscuro para el formulario */
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
@@ -37,27 +52,36 @@
             margin-bottom: 8px;
             display: block;
             font-weight: bold;
-            color: #f44336; /* Color agresivo para las etiquetas */
+            color: #f44336;
+            /* Color agresivo para las etiquetas */
         }
 
-        input, select, button {
+        input,
+        select,
+        button {
             width: 100%;
             padding: 12px;
             margin: 10px 0;
-            border: 2px solid #d32f2f; /* Borde con color fuerte */
-            background-color: #444; /* Fondo oscuro para los inputs */
-            color: #fff; /* Texto blanco en inputs */
+            border: 2px solid #d32f2f;
+            /* Borde con color fuerte */
+            background-color: #444;
+            /* Fondo oscuro para los inputs */
+            color: #fff;
+            /* Texto blanco en inputs */
             font-size: 16px;
             border-radius: 5px;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             outline: none;
-            border-color: #f00; /* Cambio de borde cuando está seleccionado */
+            border-color: #f00;
+            /* Cambio de borde cuando está seleccionado */
         }
 
         button {
-            background-color: #ff5722; /* Naranja fuerte para el botón */
+            background-color: #ff5722;
+            /* Naranja fuerte para el botón */
             color: white;
             font-size: 18px;
             border: none;
@@ -68,11 +92,13 @@
         }
 
         button:hover {
-            background-color: #e64a19; /* Cambio de color cuando el mouse está encima */
+            background-color: #e64a19;
+            /* Cambio de color cuando el mouse está encima */
         }
 
         button:active {
-            background-color: #d32f2f; /* Cambio de color cuando se presiona */
+            background-color: #d32f2f;
+            /* Cambio de color cuando se presiona */
         }
 
         .error-message {
@@ -96,14 +122,29 @@
 </head>
 
 <body>
+    <div class="logo">
+        <a href=""><img class="elemento-golpe" src="/images/image.png" alt="logo"> </a>
+    </div>
     <h1>Formulario de Inscripción</h1>
     <div class="form-container">
-        <form action="/inscribir" method="POST">
+        <form id="myForm" action="/inscribir" method="POST">
             <div class="form-section">
                 <label for="nombre">Nombre completo:</label>
                 <input type="text" id="nombre" name="nombre" required>
             </div>
-
+            
+            <div class="form-section">
+                <label for="modalidad">Modalidad:</label>
+                <select name="modalidad" id="modalidad" required>
+                    <option value="Pelea KickBoxing">Pelea Kickboxing</option>
+                    <option value="Pelea K1">Pelea K1</option>
+                    <option value="Pelea Full Contact">Pelea Full Contact</option>
+                    <option value="Pelea Boxeo">Pelea Boxeo</option>
+                    <option value="Exhibicion KickBoxing">Exhibición Kickboxing</option>
+                    <option value="Exhibicion Boxeo">Exhibición Boxeo</option>
+                    <option value="Exhibicion Full Contact">Exhibición Full contact</option>
+                </select>
+            </div>
             <div class="form-section">
                 <label for="edad">Edad:</label>
                 <input type="number" id="edad" name="edad" required>
@@ -135,7 +176,8 @@
 
             <div id="escuela-input-container" class="form-section">
                 <label for="nueva_escuela">Nombre de la escuela:</label>
-                <input type="text" id="nueva_escuela" name="nueva_escuela" placeholder="Escribe el nombre de tu escuela" />
+                <input type="text" id="nueva_escuela" name="nueva_escuela"
+                    placeholder="Escribe el nombre de tu escuela" />
             </div>
 
             <div class="form-section">
@@ -156,19 +198,25 @@
                 <input type="number" id="peleas" name="peleas" required>
             </div>
 
-            <input type="submit" value="Inscribir">
+            <input id="submitBtn" type="submit" value="Inscribir">
         </form>
     </div>
 
     <script>
-        document.getElementById('escuela').addEventListener('change', function() {
-            var escuelaInputContainer = document.getElementById('escuela-input-container');
+        document.getElementById('escuela').addEventListener('change', function () {
+            let escuelaInputContainer = document.getElementById('escuela-input-container');
             if (this.value === 'nueva') {
                 escuelaInputContainer.style.display = 'block';
             } else {
                 escuelaInputContainer.style.display = 'none';
             }
         });
-    </script>
+        
+        document.getElementById('submitBtn').addEventListener('click', function(event) {
+        this.disabled = true;  // Deshabilita el botón
+        document.getElementById('myForm').submit();  // Enviar el formulario
+});
+ </script>
 </body>
+
 </html>
