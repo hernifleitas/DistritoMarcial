@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /admin/
+Sitemap: https://distritomarcial2.vercel.app/sitemap.xml
